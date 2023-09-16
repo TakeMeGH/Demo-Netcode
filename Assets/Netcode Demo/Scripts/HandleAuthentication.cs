@@ -32,9 +32,9 @@ public class HandleAuthentication : MonoBehaviour
         AuthenticationService.Instance.SignedIn += () => {
             Debug.Log("Signed in! " + AuthenticationService.Instance.PlayerId);
             Debug.Log("Nama :  " + AuthenticationService.Instance.Profile);
+            SceneHandler.Instance.loadNextLevel();
         };
 
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
-
     }
 }
