@@ -11,13 +11,15 @@ using UnityEngine.UI;
 public class LobbyController : MonoBehaviour
 {
 
-    private Lobby joinedLobby;
+    public Lobby joinedLobby;
     bool isOwner = false;
     public List<GameObject> lobbyUIlist;
     float heartbeatTimer = 0;
     float showLobbyTimer = 10f;
     [SerializeField] Button createLobbyButton;
     [SerializeField] Button quickJoinButton;
+    [SerializeField] Canvas joinUI;
+    [SerializeField] Canvas waitingUI;
 
 
     private void Awake()
@@ -62,6 +64,9 @@ public class LobbyController : MonoBehaviour
             joinedLobby = lobby;
             Debug.Log("Lobby berhasil dibuat : " + lobbyName + " " + maxPlayers);
             isOwner = true;
+            joinUI.enabled = false;
+            waitingUI.enabled = true;
+            Debug.Log(waitingUI.enabled);
         }
         catch (LobbyServiceException e)
         {
@@ -128,6 +133,8 @@ public class LobbyController : MonoBehaviour
                 Debug.Log("Player ID : " + player.Data["Nama"].Value);
             }
 
+            joinUI.enabled = false;
+            waitingUI.enabled = true;
             // OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
         }
         catch (LobbyServiceException e)
