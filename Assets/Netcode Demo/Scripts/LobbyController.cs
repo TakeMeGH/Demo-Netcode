@@ -20,11 +20,14 @@ public class LobbyController : MonoBehaviour
     [SerializeField] Button quickJoinButton;
 
 
-    private void Awake() {
-        createLobbyButton.onClick.AddListener(() => {
+    private void Awake()
+    {
+        createLobbyButton.onClick.AddListener(() =>
+        {
             CreateLobby();
         });
-        quickJoinButton.onClick.AddListener(() => {
+        quickJoinButton.onClick.AddListener(() =>
+        {
             QuickJoinLobby();
         });
     }
@@ -33,7 +36,7 @@ public class LobbyController : MonoBehaviour
     {
         HandleLobbyHeartbeat();
         // showLobby();
-        
+
     }
 
     public async void CreateLobby()
@@ -41,9 +44,21 @@ public class LobbyController : MonoBehaviour
         try
         {
             string lobbyName = "Test Lobby";
-            int maxPlayers = 10;
+            int maxPlayers = 4;
+            CreateLobbyOptions options = new CreateLobbyOptions();
 
-            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers);
+            options.Player = new Player(
+                id: AuthenticationService.Instance.PlayerId,
+                data: new Dictionary<string, PlayerDataObject>()
+                {
+                    {
+                        "Nama", new PlayerDataObject(
+                            visibility: PlayerDataObject.VisibilityOptions.Member, // Visible only to members of the lobby.
+                            value: AuthenticationService.Instance.Profile)
+                    }
+                });
+
+            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
             joinedLobby = lobby;
             Debug.Log("Lobby berhasil dibuat : " + lobbyName + " " + maxPlayers);
             isOwner = true;
@@ -85,9 +100,22 @@ public class LobbyController : MonoBehaviour
         }
     }
 
-    public async void QuickJoinLobby() {
-        try {
+    public async void QuickJoinLobby()
+    {
+        try
+        {
             QuickJoinLobbyOptions options = new QuickJoinLobbyOptions();
+
+            options.Player = new Player(
+                id: AuthenticationService.Instance.PlayerId,
+                data: new Dictionary<string, PlayerDataObject>()
+                {
+                    {
+                        "Nama", new PlayerDataObject(
+                            visibility: PlayerDataObject.VisibilityOptions.Member, // Visible only to members of the lobby.
+                            value: AuthenticationService.Instance.Profile)
+                    }
+                });
 
             Lobby lobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
             joinedLobby = lobby;
@@ -97,11 +125,13 @@ public class LobbyController : MonoBehaviour
             Debug.Log("Nama lobby : " + joinedLobby.Name);
             foreach (Player player in joinedLobby.Players)
             {
-                Debug.Log("Player ID : " + player.Id);
+                Debug.Log("Player ID : " + player.Data["Nama"]);
             }
 
             // OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
-        } catch (LobbyServiceException e) {
+        }
+        catch (LobbyServiceException e)
+        {
             Debug.Log(e);
         }
     }
