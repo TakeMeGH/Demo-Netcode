@@ -90,11 +90,13 @@ public class LobbyController : MonoBehaviour
 
             Lobby lobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
             joinedLobby = lobby;
+            lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
+            joinedLobby = lobby;
 
             Debug.Log("Nama lobby : " + joinedLobby.Name);
             foreach (Player player in joinedLobby.Players)
             {
-                Debug.Log("Player ID : " + player.Profile);
+                Debug.Log("Player ID : " + player.Id);
             }
 
             // OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
