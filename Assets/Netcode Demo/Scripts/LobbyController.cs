@@ -125,7 +125,7 @@ public class LobbyController : MonoBehaviour
             Debug.Log("Nama lobby : " + joinedLobby.Name);
             foreach (Player player in joinedLobby.Players)
             {
-                Debug.Log("Player ID : " + player.Data["Nama"].ToString());
+                Debug.Log("Player ID : " + player.Data["Nama"].Value);
             }
 
             // OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
