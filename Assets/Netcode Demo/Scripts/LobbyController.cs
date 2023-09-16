@@ -12,6 +12,7 @@ public class LobbyController : MonoBehaviour
 {
 
     private Lobby joinedLobby;
+    bool isOwner = false;
     public List<GameObject> lobbyUIlist;
     float heartbeatTimer = 0;
     float showLobbyTimer = 10f;
@@ -44,8 +45,8 @@ public class LobbyController : MonoBehaviour
 
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers);
             joinedLobby = lobby;
-
             Debug.Log("Lobby berhasil dibuat : " + lobbyName + " " + maxPlayers);
+            isOwner = true;
         }
         catch (LobbyServiceException e)
         {
@@ -55,7 +56,7 @@ public class LobbyController : MonoBehaviour
 
     private async void HandleLobbyHeartbeat()
     {
-        if (joinedLobby != null)
+        if (joinedLobby != null && isOwner)
         {
             heartbeatTimer -= Time.deltaTime;
             if (heartbeatTimer < 0f)
