@@ -140,8 +140,31 @@ public class LobbyController : MonoBehaviour
         {
             Debug.Log(gameCode);
             joinedLobby = await Lobbies.Instance.JoinLobbyByCodeAsync(gameCode);
+            QuickJoinLobbyOptions options = new QuickJoinLobbyOptions();
 
-            Debug.Log("Berhasil join lobby : " + gameCode);
+            options.Player = new Player(
+                id: AuthenticationService.Instance.PlayerId,
+                data: new Dictionary<string, PlayerDataObject>()
+                {
+                    {
+                        "Nama", new PlayerDataObject(
+                            visibility: PlayerDataObject.VisibilityOptions.Member, // Visible only to members of the lobby.
+                            value: AuthenticationService.Instance.Profile)
+                    }
+                });
+
+            Lobby lobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
+            joinedLobby = lobby;
+
+            Debug.Log("Nama lobby : " + joinedLobby.Name);
+            foreach (Player player in joinedLobby.Players)
+            {
+                Debug.Log("Player ID : " + player.Data["Nama"].Value);
+            }
+
+            joinUI.enabled = false;
+            waitingUI.enabled = true;
+
         }
         catch (LobbyServiceException e)
         {
@@ -234,8 +257,6 @@ public class LobbyController : MonoBehaviour
             isJoin = true;
 
             NetworkManager.Singleton.StartClient();
-            joinUI.enabled = false;
-            waitingUI.enabled = true;
 
         }
         catch (RelayServiceException e)
