@@ -40,7 +40,7 @@ public class LobbyListUI : MonoBehaviour
         QueryResponse lobbies = await Lobbies.Instance.QueryLobbiesAsync();
         int cnt = gridContent.transform.childCount;
         for(int i = cnt - 1; i > 0; i--){
-            Destroy(gridContent.transform.GetChild(i));
+            Destroy(gridContent.transform.GetChild(i).gameObject);
         }
 
         foreach(Lobby lobby in lobbies.Results){
