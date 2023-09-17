@@ -205,7 +205,7 @@ public class LobbyController : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
             NetworkManager.Singleton.StartHost();
-            // NetworkManager.Singleton.SceneManager.LoadScene("GameMenu", LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene("GameMenu", LoadSceneMode.Single);
 
         }
         catch (RelayServiceException e)

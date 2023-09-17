@@ -755,7 +755,13 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
+    Build: 0
+    Collab: 0
+    Game Performance: 0
+    Purchasing: 0
+    UDP: 0
     UNet: 1
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -770,10 +776,10 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: d4bceca8-fef5-4330-ac86-3dd562b652cc
+  cloudProjectId: 7d0db1cb-1faa-4bf4-a85b-7934064aa306
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: kc-2d-platformer
+  projectName: Ristek 2023 Final Project
   organizationId: takemeun
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
