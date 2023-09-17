@@ -29,6 +29,7 @@ public class LobbyController : MonoBehaviour
     [SerializeField] Button createLobbyButton;
     [SerializeField] Button quickJoinButton;
     [SerializeField] Button startButton;
+    [SerializeField] Button joinRoomButton;
 
     [SerializeField] Canvas joinUI;
     [SerializeField] Canvas waitingUI;
@@ -132,7 +133,7 @@ public class LobbyController : MonoBehaviour
         try
         {
             Debug.Log(gameCode);
-            joinedLobby = await Lobbies.Instance.JoinLobbyByIdAsync(gameCode);
+            joinedLobby = await Lobbies.Instance.JoinLobbyByCodeAsync(gameCode);
 
             Debug.Log("Berhasil join lobby : " + gameCode);
         }

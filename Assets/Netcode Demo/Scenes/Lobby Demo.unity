@@ -842,6 +842,7 @@ MonoBehaviour:
   createLobbyButton: {fileID: 98337554}
   quickJoinButton: {fileID: 1492158753}
   startButton: {fileID: 819678581}
+  joinRoomButton: {fileID: 999465456}
   joinUI: {fileID: 2127148608}
   waitingUI: {fileID: 1143337642}
 --- !u!4 &139816086
@@ -4056,7 +4057,7 @@ GameObject:
   - component: {fileID: 999465457}
   - component: {fileID: 999465456}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Join Code Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
