@@ -52,6 +52,7 @@ public class LobbyController : MonoBehaviour
     void Update()
     {
         HandleLobbyHeartbeat();
+        Debug.Log(joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value);
         if(joinedLobby != null && joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value != "nokey"){
             Debug.Log(joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value);
             JoinRelay(joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value);
