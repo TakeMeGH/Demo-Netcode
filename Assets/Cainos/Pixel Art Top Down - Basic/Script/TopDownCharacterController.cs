@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-
 namespace Cainos.PixelArtTopDown_Basic
 {
     public class TopDownCharacterController : NetworkBehaviour
@@ -20,6 +19,9 @@ namespace Cainos.PixelArtTopDown_Basic
 
         private void Update()
         {
+            if(!IsOwner) return;
+            CameraFollow mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
+            mainCamera.target = transform;
             Vector2 dir = Vector2.zero;
             if (Input.GetKey(KeyCode.A))
             {
