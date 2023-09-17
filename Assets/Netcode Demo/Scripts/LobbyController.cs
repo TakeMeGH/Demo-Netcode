@@ -165,6 +165,37 @@ public class LobbyController : MonoBehaviour
         }
     }
 
+    public async void JoinLobbyById(string gameCode)
+    {
+        try
+        {
+            Debug.Log(lobbyCodeInput.text == "AJAKD");
+            Debug.Log(gameCode);
+            JoinLobbyByIdOptions options = new JoinLobbyByIdOptions();
+            options.Player = new Player(
+                id: AuthenticationService.Instance.PlayerId,
+                data: new Dictionary<string, PlayerDataObject>()
+                {
+                    {
+                        "Nama", new PlayerDataObject(
+                            visibility: PlayerDataObject.VisibilityOptions.Member, // Visible only to members of the lobby.
+                            value: AuthenticationService.Instance.Profile)
+                    }
+                });
+
+            Lobby lobby = await Lobbies.Instance.JoinLobbyByIdAsync(gameCode, options);
+            joinedLobby = lobby;
+
+            joinUI.enabled = false;
+            waitingUI.enabled = true;
+
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+
     public async void QuickJoinLobby()
     {
         try
