@@ -32,6 +32,7 @@ public class LobbyController : MonoBehaviour
 
     [SerializeField] Canvas joinUI;
     [SerializeField] Canvas waitingUI;
+    bool isJoin = false;
 
 
     private void Awake()
@@ -187,6 +188,7 @@ public class LobbyController : MonoBehaviour
     {
         try
         {
+            isJoin = true;
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(4);
 
             string gameCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
@@ -222,6 +224,8 @@ public class LobbyController : MonoBehaviour
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
+            isJoin = true;
+
             NetworkManager.Singleton.StartClient();
         }
         catch (RelayServiceException e)
@@ -232,6 +236,7 @@ public class LobbyController : MonoBehaviour
 
     void checkRelay()
     {
+        if(isJoin) return;
         if(joinedLobby == null) return;
         Debug.Log("check relay");
         if (joinedLobby != null && joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value != "nokey")
