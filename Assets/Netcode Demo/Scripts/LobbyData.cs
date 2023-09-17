@@ -29,6 +29,7 @@ public class LobbyData : MonoBehaviour
     }
 
     void JoinLobby(){
+        Debug.Log("Join by id");
         GameObject.FindGameObjectWithTag("LobbyController").GetComponent<LobbyController>().JoinLobbyById(lobbyId);
     }
 }

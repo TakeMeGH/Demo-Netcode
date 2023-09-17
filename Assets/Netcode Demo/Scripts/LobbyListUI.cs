@@ -36,6 +36,7 @@ public class LobbyListUI : MonoBehaviour
     }
 
     async void UpdateLobby(){
+        Debug.Log("Update lobby");
         QueryResponse lobbies = await Lobbies.Instance.QueryLobbiesAsync();
         int cnt = gridContent.transform.childCount;
         for(int i = cnt - 1; i > 0; i--){
