@@ -13,5 +13,5 @@ EditorBuildSettings:
     guid: 637a8ed0b3f65a54e908e33e50dd5a6c
   - enabled: 1
     path: Assets/Netcode Demo/Scenes/GameMenu.unity
-    guid: 6802296bb17c14d40ba7af656b08d2ed
+    guid: 63a15c77bdddbb0449a0af842162bbdd
   m_configObjects: {}
