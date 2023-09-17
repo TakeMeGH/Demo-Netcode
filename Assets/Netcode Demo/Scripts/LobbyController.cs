@@ -12,6 +12,7 @@ using Unity.Networking.Transport.Relay;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 
 
@@ -30,6 +31,7 @@ public class LobbyController : MonoBehaviour
     [SerializeField] Button quickJoinButton;
     [SerializeField] Button startButton;
     [SerializeField] Button joinRoomButton;
+    [SerializeField] TMP_InputField lobbyCodeInput;
 
     [SerializeField] Canvas joinUI;
     [SerializeField] Canvas waitingUI;
@@ -50,6 +52,10 @@ public class LobbyController : MonoBehaviour
         startButton.onClick.AddListener(() =>
         {
             StartGame();
+        });
+        
+        joinRoomButton.onClick.AddListener(() => {
+            JoinLobby(lobbyCodeInput.text);
         });
     }
     // Update is called once per frame

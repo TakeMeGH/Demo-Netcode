@@ -843,6 +843,7 @@ MonoBehaviour:
   quickJoinButton: {fileID: 1492158753}
   startButton: {fileID: 819678581}
   joinRoomButton: {fileID: 999465456}
+  lobbyCodeInput: {fileID: 834890852}
   joinUI: {fileID: 2127148608}
   waitingUI: {fileID: 1143337642}
 --- !u!4 &139816086
