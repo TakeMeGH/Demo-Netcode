@@ -23,7 +23,8 @@ public class LobbyController : MonoBehaviour
     bool isOwner = false;
     public List<GameObject> lobbyUIlist;
     float heartbeatTimer = 0;
-    float showLobbyTimer = 10f;
+    float joinRelayTimer = 3f;
+
     [SerializeField] Button createLobbyButton;
     [SerializeField] Button quickJoinButton;
     [SerializeField] Button startButton;
@@ -52,11 +53,12 @@ public class LobbyController : MonoBehaviour
     void Update()
     {
         HandleLobbyHeartbeat();
-        Debug.Log(joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value);
-        if(joinedLobby != null && joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value != "nokey"){
-            Debug.Log(joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value);
-            JoinRelay(joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value);
+        if (joinRelayTimer < 0)
+        {
+            joinRelayTimer = 3f;
+            checkRelay();
         }
+        joinRelayTimer -= Time.deltaTime;
     }
 
     public async void CreateLobby()
@@ -212,6 +214,19 @@ public class LobbyController : MonoBehaviour
         {
             Debug.Log(e);
         }
+    }
+
+    async void checkRelay()
+    {
+        Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
+        joinedLobby = lobby;
+        Debug.Log(joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value);
+        if (joinedLobby != null && joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value != "nokey")
+        {
+            Debug.Log(joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value);
+            JoinRelay(joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value);
+        }
+
     }
 
 
