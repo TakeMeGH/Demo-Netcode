@@ -271,10 +271,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 951099334
   AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!114 &1689368311336365305
@@ -286,7 +282,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5628018141983903104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
+  m_Script: {fileID: 11500000, guid: 02cc116151284ea4b870b5656dbe7475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SyncPositionX: 1
@@ -301,12 +297,8 @@ MonoBehaviour:
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
   InLocalSpace: 0
   Interpolate: 1
-  SlerpPosition: 0
 --- !u!114 &2173698249649974914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,7 +320,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5628018141983903104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
+  m_Script: {fileID: 11500000, guid: b3ebca2202c101e4997a210f30bbe1b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
