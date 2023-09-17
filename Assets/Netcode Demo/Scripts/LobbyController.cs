@@ -138,10 +138,9 @@ public class LobbyController : MonoBehaviour
     {
         try
         {
+            Debug.Log(lobbyCodeInput.text == "AJAKD");
             Debug.Log(gameCode);
-            joinedLobby = await Lobbies.Instance.JoinLobbyByCodeAsync(gameCode);
-            QuickJoinLobbyOptions options = new QuickJoinLobbyOptions();
-
+            JoinLobbyByCodeOptions options = new JoinLobbyByCodeOptions();
             options.Player = new Player(
                 id: AuthenticationService.Instance.PlayerId,
                 data: new Dictionary<string, PlayerDataObject>()
@@ -153,14 +152,8 @@ public class LobbyController : MonoBehaviour
                     }
                 });
 
-            Lobby lobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
+            Lobby lobby = await Lobbies.Instance.JoinLobbyByCodeAsync(gameCode, options);
             joinedLobby = lobby;
-
-            Debug.Log("Nama lobby : " + joinedLobby.Name);
-            foreach (Player player in joinedLobby.Players)
-            {
-                Debug.Log("Player ID : " + player.Data["Nama"].Value);
-            }
 
             joinUI.enabled = false;
             waitingUI.enabled = true;
