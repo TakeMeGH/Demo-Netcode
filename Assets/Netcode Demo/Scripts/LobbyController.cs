@@ -23,7 +23,7 @@ public class LobbyController : MonoBehaviour
     bool isOwner = false;
     public List<GameObject> lobbyUIlist;
     float heartbeatTimer = 0;
-    float joinRelayTimer = 3f;
+    float joinRelayTimer = 10f;
 
     [SerializeField] Button createLobbyButton;
     [SerializeField] Button quickJoinButton;
@@ -55,7 +55,7 @@ public class LobbyController : MonoBehaviour
         HandleLobbyHeartbeat();
         if (joinRelayTimer < 0)
         {
-            joinRelayTimer = 3f;
+            joinRelayTimer = 10f;
             checkRelay();
         }
         joinRelayTimer -= Time.deltaTime;
