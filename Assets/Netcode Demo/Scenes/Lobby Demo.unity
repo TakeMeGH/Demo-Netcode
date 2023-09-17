@@ -819,6 +819,7 @@ GameObject:
   m_Component:
   - component: {fileID: 139816086}
   - component: {fileID: 139816085}
+  - component: {fileID: 139816087}
   m_Layer: 0
   m_Name: LobbyController
   m_TagString: LobbyController
@@ -861,6 +862,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &139816087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139816084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4dc0a2e95530e84eb7f222912adb46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonTemp: {fileID: 1135714446}
+  gridContent: {fileID: 1400279519}
 --- !u!1 &210298969
 GameObject:
   m_ObjectHideFlags: 0
@@ -4660,6 +4675,7 @@ GameObject:
   - component: {fileID: 1135714450}
   - component: {fileID: 1135714449}
   - component: {fileID: 1135714448}
+  - component: {fileID: 1135714452}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -4790,6 +4806,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1135714446}
   m_CullTransparentMesh: 1
+--- !u!114 &1135714452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135714446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40869a9810ba3524390291956a5b7a63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lobbyId: 
+  lobbyName: 
 --- !u!1 &1143337638
 GameObject:
   m_ObjectHideFlags: 0
@@ -5985,7 +6015,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.2}
-  m_AnchoredPosition: {x: 0, y: 331.97003}
+  m_AnchoredPosition: {x: 0, y: 463.17}
   m_SizeDelta: {x: 1920, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1400279521
@@ -6827,8 +6857,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 684983841}
   m_HandleRect: {fileID: 684983840}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.6838269
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
