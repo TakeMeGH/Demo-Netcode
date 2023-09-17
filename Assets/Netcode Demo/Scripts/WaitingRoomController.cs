@@ -27,7 +27,7 @@ public class WaitingRoomController : MonoBehaviour
         if(joinedLobby == null){
             joinedLobby = GameObject.FindGameObjectWithTag("LobbyController").GetComponent<LobbyController>().joinedLobby;
         }
-        if(refreshTimer < 0){
+        if(refreshTimer < 0 && joinedLobby != null){
             refreshTimer = 3f;
             UpdateUI();
         }

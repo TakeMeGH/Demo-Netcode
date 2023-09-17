@@ -6,6 +6,14 @@ using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine.UI;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
+using Unity.Networking.Transport.Relay;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
+using UnityEngine.SceneManagement;
+
+
 
 
 public class LobbyController : MonoBehaviour
@@ -18,6 +26,8 @@ public class LobbyController : MonoBehaviour
     float showLobbyTimer = 10f;
     [SerializeField] Button createLobbyButton;
     [SerializeField] Button quickJoinButton;
+    [SerializeField] Button startButton;
+
     [SerializeField] Canvas joinUI;
     [SerializeField] Canvas waitingUI;
 
@@ -32,13 +42,20 @@ public class LobbyController : MonoBehaviour
         {
             QuickJoinLobby();
         });
+
+        startButton.onClick.AddListener(() =>
+        {
+            StartGame();
+        });
     }
     // Update is called once per frame
     void Update()
     {
         HandleLobbyHeartbeat();
-        // showLobby();
-
+        if(joinedLobby != null && joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value != "nokey"){
+            Debug.Log(joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value);
+            JoinRelay(joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value);
+        }
     }
 
     public async void CreateLobby()
@@ -59,7 +76,8 @@ public class LobbyController : MonoBehaviour
                             value: AuthenticationService.Instance.Profile)
                     }
                 });
-
+            options.Data = new Dictionary<string, DataObject>() {
+                     { "KEY_RELAY_JOIN_CODE" , new DataObject(DataObject.VisibilityOptions.Member, "nokey") }};
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
             joinedLobby = lobby;
             Debug.Log("Lobby berhasil dibuat : " + lobbyName + " " + maxPlayers);
@@ -138,6 +156,58 @@ public class LobbyController : MonoBehaviour
             // OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
         }
         catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+
+    void StartGame()
+    {
+        CreateRelay();
+    }
+
+    public async void CreateRelay()
+    {
+        try
+        {
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(4);
+
+            string gameCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+
+            await LobbyService.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
+            {
+                Data = new Dictionary<string, DataObject> {
+                     { "KEY_RELAY_JOIN_CODE" , new DataObject(DataObject.VisibilityOptions.Member, gameCode) }
+                 }
+            });
+            Debug.Log(gameCode);
+            RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+
+            NetworkManager.Singleton.StartHost();
+            NetworkManager.Singleton.SceneManager.LoadScene("GameMenu", LoadSceneMode.Single);
+
+        }
+        catch (RelayServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+
+    private async void JoinRelay(string gameCode)
+    {
+        try
+        {
+            JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(gameCode);
+
+            RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+
+            NetworkManager.Singleton.StartClient();
+        }
+        catch (RelayServiceException e)
         {
             Debug.Log(e);
         }
