@@ -46,7 +46,7 @@ public class LobbyListUI : MonoBehaviour
         foreach(Lobby lobby in lobbies.Results){
             GameObject createdButton = Instantiate(buttonTemp, gridContent.transform);
             createdButton.GetComponent<LobbyData>().lobbyId = lobby.Id;
-            createdButton.GetComponent<LobbyData>().lobbyId = lobby.Name;
+            createdButton.GetComponent<LobbyData>().lobbyName = lobby.Name;
             createdButton.SetActive(true);
         }
     }
