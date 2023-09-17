@@ -15,7 +15,6 @@ public class WaitingRoomController : MonoBehaviour
     [SerializeField] TMP_Text lobbyName;
     [SerializeField] TMP_Text lobbyCode;
     float refreshTimer = 10f;
-    // Start is called before the first frame update
     void Start()
     {
         joinedLobby = GameObject.FindGameObjectWithTag("LobbyController").GetComponent<LobbyController>().joinedLobby;
@@ -24,20 +23,15 @@ public class WaitingRoomController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(joinedLobby == null){
-            joinedLobby = GameObject.FindGameObjectWithTag("LobbyController").GetComponent<LobbyController>().joinedLobby;
-        }
+        joinedLobby = GameObject.FindGameObjectWithTag("LobbyController").GetComponent<LobbyController>().joinedLobby;
+        refreshTimer -= Time.deltaTime;
         if(refreshTimer < 0 && joinedLobby != null){
             refreshTimer = 10f;
             UpdateUI();
         }
-        refreshTimer -= Time.deltaTime;
     }
 
-    async void UpdateUI(){
-        Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
-        joinedLobby = lobby;
-
+    void UpdateUI(){
         playerCount.text = joinedLobby.Players.Count.ToString() + " / " + joinedLobby.MaxPlayers;
         lobbyName.text = joinedLobby.Name;
         lobbyCode.text = joinedLobby.LobbyCode;

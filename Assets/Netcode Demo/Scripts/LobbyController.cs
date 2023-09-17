@@ -22,8 +22,9 @@ public class LobbyController : MonoBehaviour
     public Lobby joinedLobby;
     bool isOwner = false;
     public List<GameObject> lobbyUIlist;
-    float heartbeatTimer = 0;
+    float heartbeatTimer = 10f;
     float joinRelayTimer = 10f;
+    float lobbyPollingTimer = 10f;
 
     [SerializeField] Button createLobbyButton;
     [SerializeField] Button quickJoinButton;
@@ -53,18 +54,32 @@ public class LobbyController : MonoBehaviour
     void Update()
     {
         HandleLobbyHeartbeat();
+        LobbyPolling();
+
+        joinRelayTimer -= Time.deltaTime;
         if (joinRelayTimer < 0)
         {
             joinRelayTimer = 10f;
             checkRelay();
         }
-        joinRelayTimer -= Time.deltaTime;
+    }
+
+    async void LobbyPolling(){
+        if(joinedLobby != null){
+            lobbyPollingTimer -= Time.deltaTime;
+            if(lobbyPollingTimer < 0){
+                lobbyPollingTimer = 10f;
+                Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
+                joinedLobby = lobby;
+            }
+        }
     }
 
     public async void CreateLobby()
     {
         try
         {
+            Debug.Log("crete lobby");
             string lobbyName = "Test Lobby";
             int maxPlayers = 4;
             CreateLobbyOptions options = new CreateLobbyOptions();
@@ -102,7 +117,7 @@ public class LobbyController : MonoBehaviour
             heartbeatTimer -= Time.deltaTime;
             if (heartbeatTimer < 0f)
             {
-                float heartbeatTimerMax = 3f;
+                float heartbeatTimerMax = 10f;
                 heartbeatTimer = heartbeatTimerMax;
 
                 Debug.Log("Heartbeat");
@@ -130,6 +145,7 @@ public class LobbyController : MonoBehaviour
     {
         try
         {
+            Debug.Log("Quick Join");
             QuickJoinLobbyOptions options = new QuickJoinLobbyOptions();
 
             options.Player = new Player(
@@ -144,8 +160,6 @@ public class LobbyController : MonoBehaviour
                 });
 
             Lobby lobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
-            joinedLobby = lobby;
-            lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
             joinedLobby = lobby;
 
             Debug.Log("Nama lobby : " + joinedLobby.Name);
@@ -216,11 +230,10 @@ public class LobbyController : MonoBehaviour
         }
     }
 
-    async void checkRelay()
+    void checkRelay()
     {
-        Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
-        joinedLobby = lobby;
-        Debug.Log(joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value);
+        if(joinedLobby == null) return;
+        Debug.Log("check relay");
         if (joinedLobby != null && joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value != "nokey")
         {
             Debug.Log(joinedLobby.Data["KEY_RELAY_JOIN_CODE"].Value);
