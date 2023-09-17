@@ -234,6 +234,9 @@ public class LobbyController : MonoBehaviour
             isJoin = true;
 
             NetworkManager.Singleton.StartClient();
+            joinUI.enabled = false;
+            waitingUI.enabled = true;
+
         }
         catch (RelayServiceException e)
         {
